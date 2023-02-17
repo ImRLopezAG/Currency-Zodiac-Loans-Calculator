@@ -1,0 +1,45 @@
+﻿@model Application.ViewModels.InterestRateVM
+@{
+  ViewData["Title"] = "Interest Rate";
+  var monthly = Model.MonthlyRate;
+  var annual = Model.Rate;
+  var isNull = Model.IsNull;
+  var message = Model.Message;
+  var total = Model.InterestRate;
+}
+
+<h1>Interest Rate</h1>
+
+<div class="col-md-5">
+  @if (isNull) {
+    <div class="alert alert-danger" role="alert">
+      @message
+    </div>
+  }
+  <form method="post" asp-controller="InterestRate" asp-action="GetInterest">
+    <div class="input-group mb-3  bg-white text-dart">
+      <input type="number" class="form-control bg-white text-dark" placeholder="Amount"
+             name="Amount" id="amount" required>
+      <select class="form-select d-inline" asp-for="Fees" required id="fees">
+        <option selected value="12">Select a Fee</option>
+      </select>
+
+    </div>
+    <div class="input-group mb-3  bg-white text-dart">
+      <select class="form-select d-inline" asp-for="Type" required id="type">
+        <option selected value="none">Type of Loan</option>
+      </select>
+      <input type="text" class="form-control bg-white text-dark" required disabled id="interest">
+    </div>
+    @if (monthly != 0) {
+      <div class="form-control bg-white border-2 text-dark mb-3">
+        <h5>Monthly Fees : @monthly.ToString("N2")</h5>
+        <h5>Annual Fees : @annual.ToString("N2")</h5>
+        <h5>Tolal : @total.ToString("N2")</h5>
+      </div>
+    }
+    <button type="submit" class="btn btn-outline-info">Get Fees</button>
+  </form>
+
+
+</div>
